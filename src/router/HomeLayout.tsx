@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { WeatherHook } from '../hooks/weather.hook';
+import * as React from "react";
 
 export const HomeLayout = () => {
     const [city, setCity] = useState('')
@@ -13,7 +14,7 @@ export const HomeLayout = () => {
         }
     };
 
-    { error && <p className="text-red-500">{error}</p> }
+    { if(error) return <p className="text-red-500">{error}</p> }
 
     return (
         <div className="w-[70%]
@@ -50,17 +51,21 @@ export const HomeLayout = () => {
                     <div className='bg-slate-200 rounded-md w-1/4'>
 
                     </div>
-                    <div className=' bg-slate-200 rounded-md w-3/4 p-4 relative'>
-                        <h2 className='text-8xl
-                         font-bold text-slate-600/20'>
-                            <span><img className='inline-block'
-                                src={data?.weather.urlIcon} alt={data?.weather.main} />
-                            </span>{data?.nameCity}</h2>
-                        <h3 className='text-slate-500/50 font-medium'>
-                            La temperatura actual es:</h3>
-                        <h2 className='text-9xl text-slate-600/30 font-bold absolute
-                         bottom-4 right-4'>{`${data?.main.temp} Cº`}</h2>
-                    </div>
+                    {data?.nameCity
+                        && (
+                        <div className=' bg-slate-200 rounded-md w-3/4 p-4 relative'>
+                            <h2 className='text-8xl
+                             font-bold text-slate-600/20'>
+                                <span><img className='inline-block'
+                                           src={data?.weather.urlIcon} alt={data?.weather.main}/>
+                                </span>{data?.nameCity}</h2>
+                            <h3 className='text-slate-500/50 font-medium'>
+                                La temperatura actual es:</h3>
+                            <h2 className='text-9xl text-slate-600/30 font-bold absolute
+                             bottom-4 right-4'>{`${data?.main.temp} Cº`}</h2>
+                        </div>
+                        )
+                    }
                 </div>
 
             </div>
