@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
-import { WeatherMapper, WeatherResponse } from '../interface/weather.interface';
+import {WeatherResponse} from "../models/weather/interface/weather.interface.ts";
+import {WeatherEntity} from "../models/weather/domain/entities/weather.entity.ts";
 
 
 export const HookWeather = () => {
-    const [data, setData] = useState<WeatherMapper>()
+    const [data, setData] = useState<WeatherEntity>()
     const [error, setError] = useState('')
     const [query, setQuery] = useState('')
 
-    const mapperWeaterCity: (weather: WeatherResponse) => WeatherMapper = (weather: WeatherResponse) => {
+    const mapperWeaterCity: (weather: WeatherResponse) => WeatherEntity = (weather: WeatherResponse) => {
         if (!weather || !weather.weather || weather.weather.length === 0) {
             throw new Error('Datos de clima inválidos');
         }
