@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
-import { WeatherMapper } from '../interface/weather.interface'
-import { WeatherController } from '../models/weather.controller';
+import {WeatherEntity} from "../models/weather/domain/entities/weather.entity.ts";
+import {WeatherController} from "../models/weather/presentation/weather.controller.ts";
+import {WeatherService} from "../models/weather/application/weather.service.ts";
+import {WeatherRepositoryImpl} from "../models/weather/infrastructure/repositories/weatherRepository.impl.ts";
 
-
+const weatherRepository = new WeatherRepositoryImpl()
+const weather = new WeatherService(weatherRepository)
+const weatherDate = new WeatherController(weather)
 
 export const WeatherHook = () => {
-    const responseData = WeatherController.getInstance();
-    const [data, setData] = useState<WeatherMapper | null>(null);
+    const [data, setData] = useState<WeatherEntity | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [query, setQuery] = useState('');
@@ -14,15 +17,21 @@ export const WeatherHook = () => {
     useEffect(() => {
 
         if (query) {
-            setIsLoading(true);
-            setError('');
-            responseData.setWeatherState(query, setData).catch(error => {
-                setError(error.message);
-            }).finally(() => {
-                setIsLoading(false)
-            })
+            setIsLoading ( true );
+            setError ( '' );
+            weatherDate.setWeatherState(query, setData)
+                .then(() => {
+                    setIsLoading ( false );
+                })
+                .catch((error) => {
+                    setError ( String(error) );
+                    setIsLoading ( false );
+                });
         }
+
     }, [query])
+
+    console.log(data)
 
     return {
         isLoading,

@@ -48,9 +48,10 @@ export const HomeLayout = () => {
 
                 <div className='w-[100%] min-h-[30vh] 
                 bg-transparent rounded-md drop-shadow-2xl flex gap-4'>
-                    <div className='bg-slate-200 rounded-md w-1/4'>
+                    {data?.nameCity
+                        && (<div className='bg-slate-200 rounded-md w-1/4'>
 
-                    </div>
+                    </div>)}
                     {data?.nameCity
                         && (
                         <div className=' bg-slate-200 rounded-md w-3/4 p-4 relative'>
